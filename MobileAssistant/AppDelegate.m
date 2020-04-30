@@ -16,6 +16,33 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7)
+    {
+        [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:87.0/255.0 green:127.0/255.0 blue:24.0/255.0 alpha:1]];
+        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    }
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent]; 
+    
+    NSDictionary *attributes = @{ NSFontAttributeName: [UIFont fontWithName:@"NeoTechAlt" size:18],
+                                  NSForegroundColorAttributeName: [UIColor whiteColor]};
+    [[UINavigationBar appearance] setTitleTextAttributes:attributes];
+    
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7)
+    {
+        UIPageControl *pageControl = [UIPageControl appearance];
+        pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+        pageControl.currentPageIndicatorTintColor = [UIColor colorWithRed:87.0/255.0 green:127.0/255.0 blue:24.0/255.0 alpha:1];
+        pageControl.backgroundColor = [UIColor clearColor];
+        
+        [[UITextField appearance] setTintColor:[UIColor colorWithRed:87.0/255.0 green:127.0/255.0 blue:24.0/255.0 alpha:1]];
+    }    
+    
     // Override point for customization after application launch.
     return YES;
 }
@@ -32,6 +59,12 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    
+    NSString *screen = [[NSUserDefaults standardUserDefaults] stringForKey:@"SCREEN"];
+    if ([screen intValue] == 1)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"RELOADSPLASH" object:nil userInfo:nil];
+    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
